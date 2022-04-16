@@ -6,12 +6,11 @@
 #include <map>
 #include <algorithm>
 using namespace std;
-// TODO: Add validation checks and Error Handling
 void tokenize(string const &str, const char delim, vector<string> &out)
 {
-    std::stringstream ss(str);
-    std::string s;
-    while (std::getline(ss, s, delim))
+    stringstream ss(str);
+    string s;
+    while (getline(ss, s, delim))
         out.push_back(s);
 }
 
@@ -40,13 +39,13 @@ int main()
             tokenize(input_line, ',', temp);
             for (auto &s : temp)
             {
-                int x = s[0] - '0';
+                int x = stoi(s);
                 states.push_back(x);
             }
         }
         if (line == 3)
         {
-            initial_state = input_line[0] - '0';
+            initial_state = stoi(input_line);
         }
         if (line == 4)
         {
@@ -54,7 +53,7 @@ int main()
             tokenize(input_line, ',', temp);
             for (auto &s : temp)
             {
-                int x = s[0] - '0';
+                int x = stoi(s);
                 final_states.push_back(x);
             }
         }
@@ -62,10 +61,11 @@ int main()
         {
             vector<string> temp;
             tokenize(input_line, ',', temp);
-            pair<int, char> lhs{temp[0][0] - '0', temp[1][0]};
-            transition[lhs] = temp[2][0] - '0';
+            pair<int, char> lhs{stoi(temp[0]), temp[1][0]};
+            transition[lhs] = stoi(temp[2]);
         }
     }
+
     current_state = initial_state;
     cout << "\nInput Alphabets\n";
     for (auto &s : input_alphabet)
@@ -83,7 +83,7 @@ int main()
 
     string input;
     cout << "Input String: ";
-    cin >> input;
+    getline(cin, input);
     for (size_t i = 0; i < input.size(); i++)
     {
         cout << "\n";
@@ -91,6 +91,11 @@ int main()
         string x(input.begin() + i, input.end());
         cout << "(" << x << ", " << current_state << ")";
         pair<int, char> lhs{current_state, input[i]};
+        if (find(input_alphabet.begin(), input_alphabet.end(), input[i]) == input_alphabet.end())
+        {
+            cout << "\nInvalid Character found\n";
+            return 22;
+        }
         if (transition.find(lhs) != transition.end())
             current_state = transition[lhs];
         cout << "\n";
