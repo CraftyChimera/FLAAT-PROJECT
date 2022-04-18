@@ -1,10 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <map>
-#include <algorithm>
+#include "dfa_util.h"
 #include <set>
 using namespace std;
 using std::cout;
@@ -187,19 +181,6 @@ int main()
         cout << "\n";
     }
     cout << "\n\nCorresponding renamed DFA\n\n";
-    cout << "\nInput Alphabets\n";
-    for (auto &s : input_alphabet)
-        cout << s << " ";
-    cout << "\nStates\n";
-    for (auto &s : renamed_dfa_states)
-        cout << s << " ";
-    cout << "\nFinal States\n";
-    for (auto &s : renamed_dfa_final_states)
-        cout << s << " ";
-    cout << "\nTransition Function\n";
-    for (auto &s : renamed_dfa_transition)
-        cout << s.first.first << "," << s.first.second << " -> " << s.second << "\n";
-    cout << "\n";
-
-    return 0;
+    int x = dfa_simulator(initial_state, input_alphabet, renamed_dfa_final_states, renamed_dfa_states, renamed_dfa_transition);
+    return x;
 }
